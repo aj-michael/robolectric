@@ -31,7 +31,6 @@ public class RoboCookieManager extends CookieManager {
       }
     }
 
-#if ($api >= 21)
     @Override
     public void setCookie(String s, String s1, ValueCallback<Boolean> valueCallback) {
 
@@ -61,7 +60,6 @@ public class RoboCookieManager extends CookieManager {
     public void removeSessionCookies(ValueCallback<Boolean> valueCallback) {
 
     }
-#end
 
     public String getCookie(String url) {
       // Return null value for empty url
@@ -78,8 +76,8 @@ public class RoboCookieManager extends CookieManager {
       final List<Cookie> matchedCookies;
       if (url.startsWith(".")) {
         matchedCookies = filter(url.substring(1));
-      } else if (url.contains("//.")) {
-        matchedCookies = filter(url.substring(url.indexOf("//.") + 3));
+      } else if (url.contains("/android/webkit/RoboCookieManager.java")) {
+        matchedCookies = filter(url.substring(url.indexOf("/android/webkit/RoboCookieManager.java") + 3));
       } else {
         matchedCookies = filter(getCookieHost(url), url.startsWith(HTTPS));
       }

@@ -197,24 +197,20 @@ public class ShadowCursorWrapper implements Cursor {
     wrappedCursor.setNotificationUri(contentResolver, uri);
   }
 
-#if ($api >= 19)
-  @Implementation
+  @Implementation(from = 19)
   public Uri getNotificationUri() {
     return wrappedCursor.getNotificationUri();
   }
-#end
 
   @Implementation
   public boolean getWantsAllOnMoveCalls() {
     return wrappedCursor.getWantsAllOnMoveCalls();
   }
 
-#if ($api >= 23)
-  @Implementation
+  @Implementation(from = 23)
   public void setExtras(Bundle extras) {
     wrappedCursor.setExtras(extras);
   }
-#end
 
   @Implementation
   public Bundle getExtras() {

@@ -1,5 +1,6 @@
 package org.robolectric.shadows;
 
+import android.os.Build;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
@@ -55,11 +56,13 @@ public final class ShadowAssetManager {
   public static final int STYLE_CHANGING_CONFIGURATIONS = 4;
   public static final int STYLE_DENSITY = 5;
 
+  public static final int LOLLIPOP = 21;
+
   boolean strictErrors = false;
 
   private Map<Number, ThemeStyleSet> themes =
       Collections.synchronizedMap(new HashMap<Number, ThemeStyleSet>());
-  private $ptrClass nextInternalThemeId = 1000;
+  private long nextInternalThemeId = 1000;
   private ResourceLoader resourceLoader;
 
   @RealObject
@@ -147,8 +150,13 @@ public final class ShadowAssetManager {
     return charSequences;
   }
 
-  @HiddenApi @Implementation
-  public boolean getThemeValue($ptrClass themePtr, int ident, TypedValue outValue, boolean resolveRefs) {
+  @HiddenApi @Implementation(to = LOLLIPOP - 1)
+  public boolean getThemeValue(int themePtr, int ident, TypedValue outValue, boolean resolveRefs) {
+    return getThemeValue((long) themePtr, ident, outValue, resolveRefs);
+  }
+
+  @HiddenApi @Implementation(from = LOLLIPOP)
+  public boolean getThemeValue(long themePtr, int ident, TypedValue outValue, boolean resolveRefs) {
     ResourceIndex resourceIndex = resourceLoader.getResourceIndex();
     ResName resName = resourceIndex.getResName(ident);
 
@@ -271,18 +279,33 @@ public final class ShadowAssetManager {
     return ints;
   }
 
-  @HiddenApi @Implementation
-  synchronized public $ptrClass createTheme() {
+  @HiddenApi @Implementation(to = LOLLIPOP - 1)
+  synchronized public int createTheme$$PreLollipop() {
+    return (int) nextInternalThemeId++;
+  }
+
+  @HiddenApi @Implementation(from = LOLLIPOP)
+  synchronized public long createTheme$$Lollipop() {
     return nextInternalThemeId++;
   }
 
-  @HiddenApi @Implementation
-  public void releaseTheme($ptrClass themePtr) {
+  @HiddenApi @Implementation(to = LOLLIPOP - 1)
+  public void releaseTheme(int themePtr) {
     themes.remove(themePtr);
   }
 
-  @HiddenApi @Implementation
-  public static void applyThemeStyle($ptrClass themePtr, int styleRes, boolean force) {
+  @HiddenApi @Implementation(from = LOLLIPOP)
+  public void releaseTheme(long themePtr) {
+    themes.remove(themePtr);
+  }
+
+  @HiddenApi @Implementation(to = LOLLIPOP - 1)
+  public static void applyThemeStyle(int themePtr, int styleRes, boolean force) {
+    applyThemeStyle((long) themePtr, styleRes, force);
+  }
+
+  @HiddenApi @Implementation(from = LOLLIPOP)
+  public static void applyThemeStyle(long themePtr, int styleRes, boolean force) {
     ShadowAssetManager assetManager = shadowOf(RuntimeEnvironment.application.getAssets());
 
     final Map<Number, ThemeStyleSet> themes = assetManager.themes;
@@ -298,8 +321,13 @@ public final class ShadowAssetManager {
     themeStyleSet.apply(style, force);
   }
 
-  @HiddenApi @Implementation
-  public static void copyTheme($ptrClass destPtr, $ptrClass sourcePtr) {
+  @HiddenApi @Implementation(to = LOLLIPOP - 1)
+  public static void copyTheme(int destPtr, int sourcePtr) {
+    copyTheme((long) destPtr, (long) sourcePtr);
+  }
+
+  @HiddenApi @Implementation(from = LOLLIPOP)
+  public static void copyTheme(long destPtr, long sourcePtr) {
     ShadowAssetManager assetManager = shadowOf(RuntimeEnvironment.application.getAssets());
     assetManager.themes.put(destPtr, assetManager.getThemeStyleSet(sourcePtr).copy());
   }
@@ -345,7 +373,7 @@ public final class ShadowAssetManager {
     return resourceLoader.resolveResourceValue(value, qualifiers, resId);
   }
 
-  private AttributeResource buildAttribute(AttributeSet set, int resId, int defStyleAttr, $ptrClass themePtr, int defStyleRes) {
+  private AttributeResource buildAttribute(AttributeSet set, int resId, int defStyleAttr, long themePtr, int defStyleRes) {
     /*
      * When determining the final value of a particular attribute, there are four inputs that come into play:
      *
@@ -442,17 +470,17 @@ public final class ShadowAssetManager {
     }
   }
 
-  private ThemeStyleSet getThemeStyleSet($ptrClass themePtr) {
+  private ThemeStyleSet getThemeStyleSet(long themePtr) {
     ThemeStyleSet themeStyleSet = themes.get(themePtr);
     return themeStyleSet == null ? new ThemeStyleSet() : themeStyleSet;
   }
 
   TypedArray attrsToTypedArray(Resources resources, AttributeSet set, int[] attrs, int defStyleAttr, Resources.Theme theme, int defStyleRes) {
-      $ptrClass themePtr = ReflectionHelpers.getField(theme, "mTheme");
+      long themePtr = ReflectionHelpers.getField(theme, "mTheme");
       return attrsToTypedArray(resources, set, attrs, defStyleAttr, themePtr, defStyleRes);
   }
 
-  TypedArray attrsToTypedArray(Resources resources, AttributeSet set, int[] attrs, int defStyleAttr, $ptrClass themePtr, int defStyleRes) {
+  TypedArray attrsToTypedArray(Resources resources, AttributeSet set, int[] attrs, int defStyleAttr, long themePtr, int defStyleRes) {
     CharSequence[] stringData = new CharSequence[attrs.length];
     int[] data = new int[attrs.length * ShadowAssetManager.STYLE_NUM_ENTRIES];
     int[] indices = new int[attrs.length + 1];

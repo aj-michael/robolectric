@@ -3,7 +3,6 @@ package org.robolectric.shadows;
 #if ($api >= 17)
 import android.hardware.display.DisplayManagerGlobal;
 import android.hardware.display.IDisplayManager;
-import android.hardware.display.RoboDisplayManager;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.internal.Shadow;
@@ -17,7 +16,7 @@ import android.view.Display;
  */
 @Implements(value = DisplayManagerGlobal.class, isInAndroidSdk = false)
 public class ShadowDisplayManagerGlobal {
-  private static final RoboDisplayManager displayManager = new RoboDisplayManager();
+  private static final IDisplayManager displayManager = ReflectionHelpers.createNullProxy(IDisplayManager.class);
 
   @Implementation
   public static Object getInstance() {

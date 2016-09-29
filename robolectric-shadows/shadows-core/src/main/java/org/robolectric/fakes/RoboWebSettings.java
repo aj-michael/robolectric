@@ -311,7 +311,6 @@ public class RoboWebSettings extends WebSettings {
     this.navDump = navDump;
   }
 
-#if ($api >= 3)
   private boolean allowFileAccess = true;
   private boolean builtInZoomControls = true;
   private String userAgentString = "Mozilla/5.0 (Linux; U; Android 4.0.3; ko-kr; LG-L160L Build/IML74K) AppleWebkit/534.30 (KHTML, like Gecko) Version/4.0 Mobile Safari/534.30";
@@ -346,9 +345,7 @@ public class RoboWebSettings extends WebSettings {
     return userAgentString;
   }
   // End API 3
-#end
 
-#if ($api >= 5)
   private boolean databaseEnabled = false;
   private String databasePath = "database";
   private String geolocationDatabasePath = "geolocation";
@@ -392,9 +389,7 @@ public class RoboWebSettings extends WebSettings {
     this.geolocationEnabled = geolocationEnabled;
   }
   // End API 5
-#end
 
-#if ($api >= 7)
   private ZoomDensity defaultZoom;
   private boolean domStorageEnabled = false;
   private boolean loadWithOverviewMode = false;
@@ -459,9 +454,7 @@ public class RoboWebSettings extends WebSettings {
     this.appCachePath = appCachePath;
   }
   // End API 7
-#end
 
-#if ($api >= 8)
   private boolean blockNetworkLoads = false;
   private WebSettings.PluginState pluginState = WebSettings.PluginState.OFF;
 
@@ -485,9 +478,7 @@ public class RoboWebSettings extends WebSettings {
     pluginState = state;
   }
   // End API 8
-#end
 
-#if ($api >= 9)
   private boolean useWebViewBackgroundForOverscrollBackground;
 
   @Override
@@ -500,9 +491,7 @@ public class RoboWebSettings extends WebSettings {
     this.useWebViewBackgroundForOverscrollBackground = useWebViewBackgroundForOverscrollBackground;
   }
   // End API 9
-#end
 
-#if ($api >= 11)
   private boolean enableSmoothTransition;
   private boolean allowContentAccess = true;
   private boolean displayZoomControls;
@@ -537,9 +526,7 @@ public class RoboWebSettings extends WebSettings {
     return displayZoomControls;
   }
   // End API 11
-#end
 
-#if ($api >= 14)
   private int textZoom = 100;
 
   @Override
@@ -552,9 +539,7 @@ public class RoboWebSettings extends WebSettings {
     this.textZoom = textZoom;
   }
   // End API 14
-#end
 
-#if ($api >= 16)
   private boolean allowFileAccessFromFile = true;
   private boolean allowUniversalAccessFromFile = true;
 
@@ -578,9 +563,7 @@ public class RoboWebSettings extends WebSettings {
     allowUniversalAccessFromFile = allow;
   }
   //End API 16
-#end
 
-#if ($api >= 17)
   private boolean mediaPlaybackRequiresUserGesture = true;
 
   @Override
@@ -593,9 +576,7 @@ public class RoboWebSettings extends WebSettings {
     mediaPlaybackRequiresUserGesture = require;
   }
   //End API 17
-#end
 
-#if ($api >= 21)
   private int mixedContentMode;
   private boolean acceptThirdPartyCookies;
   private boolean videoOverlayForEmbeddedEncryptedVideoEnabled;
@@ -630,9 +611,7 @@ public class RoboWebSettings extends WebSettings {
     this.acceptThirdPartyCookies = acceptThirdPartyCookies;
   }
   // End API 21
-#end
 
-#if ($api >= 23)
   @Override
   public void setOffscreenPreRaster(boolean enabled) {
 
@@ -643,5 +622,4 @@ public class RoboWebSettings extends WebSettings {
   }
 
   // End API 23
-#end
 }

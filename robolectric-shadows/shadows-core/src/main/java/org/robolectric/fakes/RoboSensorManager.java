@@ -3,9 +3,7 @@ package org.robolectric.fakes;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-#if ($api >= 18)
 import android.hardware.TriggerEventListener;
-#end
 import android.os.Handler;
 
 import java.util.ArrayList;
@@ -25,7 +23,6 @@ public class RoboSensorManager extends SensorManager {
   protected void unregisterListenerImpl(SensorEventListener listener, Sensor sensor) {
   }
 
-#if ($api >= 19)
   @Override
   protected boolean registerListenerImpl(SensorEventListener listener, Sensor sensor, int delayUs, Handler handler, int maxBatchReportLatencyUs, int reservedFlags) {
     return false;
@@ -35,14 +32,11 @@ public class RoboSensorManager extends SensorManager {
   protected boolean flushImpl(SensorEventListener listener) {
     return false;
   }
-#else
-  @Override
+
   protected boolean registerListenerImpl(SensorEventListener listener, Sensor sensor, int delayUs, Handler handler) {
     return false;
   }
-#end
 
-#if ($api >= 18)
   @Override
   protected boolean requestTriggerSensorImpl(TriggerEventListener listener, Sensor sensor) {
     return false;
@@ -52,14 +46,12 @@ public class RoboSensorManager extends SensorManager {
   protected boolean cancelTriggerSensorImpl(TriggerEventListener listener, Sensor sensor, boolean disable) {
     return false;
   }
-#end
 
   @Override
   protected List<Sensor> getFullSensorList() {
     return null;
   }
 
-#if ($api >= 23)
   @Override
   protected boolean initDataInjectionImpl(boolean enable) {
     return false;
@@ -69,5 +61,4 @@ public class RoboSensorManager extends SensorManager {
   protected boolean injectSensorDataImpl(Sensor sensor, float[] values, int accuracy, long timestamp) {
     return false;
   }
-#end
 }

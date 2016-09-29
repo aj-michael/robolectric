@@ -2,10 +2,12 @@ package org.robolectric.shadows;
 
 import java.util.Locale;
 
+import android.os.Build;
 import libcore.icu.LocaleData;
 import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.internal.Shadow;
+import org.robolectric.util.ReflectionHelpers;
 
 /**
  * Shadow for {@link libcore.icu.LocaleData}.
@@ -36,16 +38,16 @@ public class ShadowLocaleData {
     localeData.longMonthNames = new String[]{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     localeData.shortMonthNames = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-#if ($api >= 17)
-    localeData.tinyMonthNames = new String[]{"J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"};
-    localeData.tinyStandAloneMonthNames = localeData.tinyMonthNames;
-    localeData.tinyWeekdayNames = new String[]{"", "S", "M", "T", "W", "T", "F", "S"};
-    localeData.tinyStandAloneWeekdayNames = localeData.tinyWeekdayNames;
+    if (Build.VERSION.SDK_INT >= 17) {
+      localeData.tinyMonthNames = new String[]{"J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"};
+      localeData.tinyStandAloneMonthNames = localeData.tinyMonthNames;
+      localeData.tinyWeekdayNames = new String[]{"", "S", "M", "T", "W", "T", "F", "S"};
+      localeData.tinyStandAloneWeekdayNames = localeData.tinyWeekdayNames;
 
-    localeData.yesterday = "Yesterday";
-    localeData.today = "Today";
-    localeData.tomorrow = "Tomorrow";
-#end
+      localeData.yesterday = "Yesterday";
+      localeData.today = "Today";
+      localeData.tomorrow = "Tomorrow";
+    }
 
     localeData.longStandAloneMonthNames = localeData.longMonthNames;
     localeData.shortStandAloneMonthNames = localeData.shortMonthNames;
@@ -61,13 +63,13 @@ public class ShadowLocaleData {
     localeData.mediumTimeFormat = "h:mm:ss a";
     localeData.shortTimeFormat = "h:mm a";
 
-#if ($api >= 23)
-    localeData.timeFormat_hm = "h:mm a";
-    localeData.timeFormat_Hm = "HH:mm";
-#elseif ($api >= 18)
-    localeData.timeFormat12 = "h:mm a";
-    localeData.timeFormat24 = "HH:mm";
-#end
+    if (Build.VERSION.SDK_INT >= 23) {
+      localeData.timeFormat_hm = "h:mm a";
+      localeData.timeFormat_Hm = "HH:mm";
+    } else if (Build.VERSION.SDK_INT >= 18) {
+      ReflectionHelpers.setField(localeData, "timeFormat12", "h:mm a");
+      ReflectionHelpers.setField(localeData, "timeFormat24", "HH:mm");
+    }
 
     localeData.fullDateFormat = "EEEE, MMMM d, y";
     localeData.longDateFormat = "MMMM d, y";
@@ -79,24 +81,25 @@ public class ShadowLocaleData {
     localeData.groupingSeparator = ',';
     localeData.patternSeparator = ';';
 
-#if ($api >= 22)
-    // Lollipop MR1 uses a String
-    localeData.percent = "%";
-#else
-    // Upto Lollipop was a char
-    localeData.percent = '%';
-#end
+    if (Build.VERSION.SDK_INT >= 22) {
+      // Lollipop MR1 uses a String
+      localeData.percent = "%";
+    } else {
+      // Upto Lollipop was a char
+      ReflectionHelpers.setField(localeData, "percent", '%');
+    }
 
     localeData.perMill = 0x2030;
     localeData.monetarySeparator = '.';
 
-#if ($api >= 21)
-    // Lollipop uses a String
-    localeData.minusSign = "-";
-#else
-    // Upto KitKat was a char
-    localeData.minusSign = '-';
-#end
+    if (Build.VERSION.SDK_INT >= 21) {
+      // Lollipop uses a String
+      localeData.minusSign = "-";
+    } else {
+      // Upto KitKat was a char
+      ReflectionHelpers.setField(localeData, "minusSign", '-');
+//      localeData.minusSign = '-';
+    }
 
     localeData.exponentSeparator = "E";
     localeData.infinity = "\u221E";

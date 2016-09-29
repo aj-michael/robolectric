@@ -207,6 +207,14 @@ public class ShadowWrangler implements ClassHandler {
     try {
       Class<?> shadowClass = Class.forName(config.shadowClassName, false, classLoader);
       Method method = getMethod(shadowClass, name, types);
+      if (method == null) {
+        String methodPrefix = name + "$$";
+        for (Method candidateMethod : shadowClass.getMethods()) {
+          if (candidateMethod.getName().startsWith(methodPrefix)) {
+
+          }
+        }
+      }
       if (method == null && config.looseSignatures) {
         Class<?>[] genericTypes = MethodType.genericMethodType(types.length).parameterArray();
         method = getMethod(shadowClass, name, genericTypes);

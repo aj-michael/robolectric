@@ -187,24 +187,20 @@ public class BaseCursor implements Cursor {
     throw new UnsupportedOperationException();
   }
 
-#if ($api >= 19)
   @Override
   public Uri getNotificationUri() {
     throw new UnsupportedOperationException();
   }
-#end
 
   @Override
   public boolean getWantsAllOnMoveCalls() {
     throw new UnsupportedOperationException();
   }
 
-#if ($api >= 23)
   @Override
   public void setExtras(Bundle extras) {
     throw new UnsupportedOperationException();
   }
-#end
 
   @Override
   public Bundle getExtras() {

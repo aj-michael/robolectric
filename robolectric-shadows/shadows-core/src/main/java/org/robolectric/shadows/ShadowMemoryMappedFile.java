@@ -1,15 +1,13 @@
 package org.robolectric.shadows;
 
+import android.os.Build;
 import libcore.io.BufferIterator;
-#if ($api >= 21)
 import android.system.ErrnoException;
-#else
-import libcore.io.ErrnoException;
-#end
 import libcore.io.MemoryMappedFile;
 import libcore.io.Streams;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
+import org.robolectric.annotation.RealObject;
 import org.robolectric.internal.ShadowExtractor;
 
 import java.io.IOException;
@@ -32,11 +30,12 @@ public class ShadowMemoryMappedFile {
     private static final String TZ_DATA_3 = "/misc/zoneinfo/current/tzdata";
 
     @Implementation
-    public static MemoryMappedFile mmapRO(String path) throws ErrnoException {
+    public static MemoryMappedFile mmapRO(String path) throws Throwable {
         if (path.endsWith(TZ_DATA_1) || path.endsWith(TZ_DATA_2) || path.endsWith(TZ_DATA_3)) {
             InputStream is = MemoryMappedFile.class.getResourceAsStream(TZ_DATA_2);
             if (is == null) {
-                throw new ErrnoException("open", -1);
+                throw (Throwable) exceptionClass().getConstructor(String.class, int.class)
+                    .newInstance("open", -1);
             }
             try {
                 MemoryMappedFile memoryMappedFile = new MemoryMappedFile(-1, -1);
@@ -44,15 +43,28 @@ public class ShadowMemoryMappedFile {
                 shadowMemoryMappedFile.bytes = Streams.readFully(is);
                 return memoryMappedFile;
             } catch (IOException e) {
-                throw new ErrnoException("mmap", -1, e);
+                throw (Throwable) exceptionClass().getConstructor(String.class, int.class, Throwable.class)
+                    .newInstance("mmap", -1, e);
             }
         } else {
             throw new IllegalArgumentException("Unknown file for mmap: '" + path);
         }
     }
 
+    private static Class exceptionClass() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return ErrnoException.class;
+        } else {
+            try {
+                return MemoryMappedFile.class.getClassLoader().loadClass("libcore.io.ErrnoException");
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     @Implementation
-    public synchronized void close() throws ErrnoException {
+    public synchronized void close() throws Exception {
         bytes = null;
     }
 

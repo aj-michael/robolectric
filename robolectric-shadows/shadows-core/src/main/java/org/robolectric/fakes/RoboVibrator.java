@@ -2,10 +2,8 @@ package org.robolectric.fakes;
 
 import android.os.Vibrator;
 
-#if ($api >= 21)
 import android.media.AudioAttributes;
-#end
-
+import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.internal.DoNotInstrument;
 
 /**
@@ -34,7 +32,6 @@ public class RoboVibrator extends Vibrator {
     this.repeat = repeat;
   }
 
-#if ($api >= 21)
   @Override
   public void vibrate(int i, String s, long l, AudioAttributes audioAttributes) {
 
@@ -44,17 +41,14 @@ public class RoboVibrator extends Vibrator {
   public void vibrate(int i, String s, long[] longs, int i1, AudioAttributes audioAttributes) {
 
   }
-#elseif ($api >= 18)
-  @Override
+
   public void vibrate(int i, String s, long l) {
 
   }
 
-  @Override
   public void vibrate(int i, String s, long[] l, int i1) {
 
   }
-#end
 
   public void cancel() {
     cancelled = true;
