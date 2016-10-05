@@ -17,15 +17,7 @@ dependencies {
     compile project(":robolectric-annotations")
     compile project(":robolectric-resources")
     compile project(":robolectric-utils")
-    provided project(":robolectric-shadows/shadows-core/v23")
-
-    shadow project(":robolectric-shadows/shadows-core/v16")
-    shadow project(":robolectric-shadows/shadows-core/v17")
-    shadow project(":robolectric-shadows/shadows-core/v18")
-    shadow project(":robolectric-shadows/shadows-core/v19")
-    shadow project(":robolectric-shadows/shadows-core/v21")
-    shadow project(":robolectric-shadows/shadows-core/v22")
-    shadow project(":robolectric-shadows/shadows-core/v23")
+    provided project(":robolectric-shadows/shadows-core")
 
     // Compile dependencies
     compile "org.ow2.asm:asm:5.0.1"

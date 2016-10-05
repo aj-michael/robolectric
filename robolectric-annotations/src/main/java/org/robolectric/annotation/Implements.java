@@ -60,4 +60,7 @@ public @interface Implements {
    * @return True to disable strict signature matching.
    */
   boolean looseSignatures() default false;
+
+  int from() default -1;
+  int to() default -1;
 }
