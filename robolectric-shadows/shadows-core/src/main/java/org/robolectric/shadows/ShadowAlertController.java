@@ -65,12 +65,10 @@ public class ShadowAlertController {
     directlyOn(realAlertController, AlertController.class).setView(view);
   }
 
-#if ($api >= 19)
-  @Implementation
+  @Implementation(from = 19)
   public void setView(int resourceId) {
     setView(LayoutInflater.from(RuntimeEnvironment.application).inflate(resourceId, null));
   }
-#end
 
   @Implementation
   public void setIcon(int iconId) {

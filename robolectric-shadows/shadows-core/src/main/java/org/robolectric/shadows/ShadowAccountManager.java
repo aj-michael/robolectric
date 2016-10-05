@@ -410,7 +410,6 @@ public class ShadowAccountManager {
     addAuthenticator(AuthenticatorDescription.newKey(type));
   }
 
-#if ($api >= 21)
   private Map<Account, String> previousNames = new HashMap<Account, String>();
   /**
    * Non-android accessor.
@@ -422,9 +421,8 @@ public class ShadowAccountManager {
     previousNames.put(account, previousName);
   }
 
-  @Implementation
+  @Implementation(from = 21)
   public String getPreviousName(Account account) {
     return previousNames.get(account);
   }
-#end
 }

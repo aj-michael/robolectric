@@ -5,9 +5,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.Display;
-#if ($api >= 19)
 import android.view.DisplayAdjustments;
-#end
 import android.view.Surface;
 import org.robolectric.annotation.RealObject;
 import org.robolectric.annotation.Implementation;
@@ -123,12 +121,10 @@ public class ShadowDisplay {
     outSize.set(realWidth, realHeight);
   }
 
-#if ($api >= 21)
-  @Implementation
+  @Implementation(from = 21)
   public int getState() {
     return Display.STATE_ON;
   }
-#end
 
   public float getDensity() {
     return density;
@@ -210,10 +206,8 @@ public class ShadowDisplay {
     this.pixelFormat = pixelFormat;
   }
 
-#if ($api >= 19)
-  @Implementation
+  @Implementation(from = 19)
   public DisplayAdjustments getDisplayAdjustments() {
     return new DisplayAdjustments();
   }
-#end
 }

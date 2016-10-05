@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.ClipboardManager.OnPrimaryClipChangedListener;
+import android.os.Build;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.RealObject;
@@ -25,11 +26,11 @@ public class ShadowClipboardManager {
 
   @Implementation
   public void setPrimaryClip(ClipData clip) {
-#if ($api >= 18)
-    if (clip != null) {
-       clip.prepareToLeaveProcess();
+    if (Build.VERSION.SDK_INT >= 18) {
+      if (clip != null) {
+        clip.prepareToLeaveProcess();
+      }
     }
-#end
 
     this.clip = clip;
 

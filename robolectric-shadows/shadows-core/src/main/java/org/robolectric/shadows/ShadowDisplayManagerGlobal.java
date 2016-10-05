@@ -1,8 +1,8 @@
 package org.robolectric.shadows;
 
-#if ($api >= 17)
 import android.hardware.display.DisplayManagerGlobal;
 import android.hardware.display.IDisplayManager;
+import android.os.Build;
 import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.internal.Shadow;
@@ -14,7 +14,7 @@ import android.view.Display;
 /**
  * Shadow for {@link android.hardware.display.DisplayManagerGlobal}.
  */
-@Implements(value = DisplayManagerGlobal.class, isInAndroidSdk = false)
+@Implements(value = DisplayManagerGlobal.class, isInAndroidSdk = false, from = 17)
 public class ShadowDisplayManagerGlobal {
   private static final IDisplayManager displayManager = ReflectionHelpers.createNullProxy(IDisplayManager.class);
 
@@ -27,15 +27,9 @@ public class ShadowDisplayManagerGlobal {
   @Implementation
   public Object getDisplayInfo(int displayId) {
     Object result = Shadow.newInstanceOf("android.view.DisplayInfo");
-    #if ($api >= 23)
-    ReflectionHelpers.setField(result, "supportedModes", new Display.Mode[] { new Display.Mode(0, 0, 0, 0.0f) });
-    #end
+    if (Build.VERSION.SDK_INT >= 23) {
+      ReflectionHelpers.setField(result, "supportedModes", new Display.Mode[]{new Display.Mode(0, 0, 0, 0.0f)});
+    }
     return result;
   }
 }
-
-#else
-public class ShadowDisplayManagerGlobal {
-  // Dummy, this class was added in API 17
-}
-#end

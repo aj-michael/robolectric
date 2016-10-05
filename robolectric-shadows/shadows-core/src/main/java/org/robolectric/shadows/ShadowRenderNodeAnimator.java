@@ -1,6 +1,5 @@
 package org.robolectric.shadows;
 
-#if ($api >= 21)
 import android.view.Choreographer;
 import android.view.Choreographer.FrameCallback;
 import android.view.RenderNodeAnimator;
@@ -15,7 +14,7 @@ import static org.robolectric.internal.Shadow.directlyOn;
 /**
  * Shadow for {@link android.view.RenderNodeAnimator}.
  */
-@Implements(value = RenderNodeAnimator.class, isInAndroidSdk = false)
+@Implements(value = RenderNodeAnimator.class, isInAndroidSdk = false, from = 21)
 public class ShadowRenderNodeAnimator {
   private static final int STATE_FINISHED = 3;
 
@@ -35,8 +34,7 @@ public class ShadowRenderNodeAnimator {
         RenderNodeAnimator.class, "sAnimationHelper", new ThreadLocal<>());
   }
 
-#if ($api >= 22)
-  @Implementation
+  @Implementation(from = 22)
   public void moveToRunningState() {
     directlyOn(realObject, RenderNodeAnimator.class, "moveToRunningState");
     if (!isEnding) {
@@ -46,14 +44,14 @@ public class ShadowRenderNodeAnimator {
       schedule();
     }
   }
-#else
-  @Implementation
+
+  @Implementation(to = 21)
   public void doStart() {
     directlyOn(realObject, RenderNodeAnimator.class, "doStart");
     schedule();
   }
 
-  @Implementation
+  @Implementation(to = 21)
   public void cancel() {
     directlyOn(realObject, RenderNodeAnimator.class).cancel();
     int state = ReflectionHelpers.getField(realObject, "mState");
@@ -63,7 +61,6 @@ public class ShadowRenderNodeAnimator {
       directlyOn(realObject, RenderNodeAnimator.class, "onFinished");
     }
   }
-#end
 
   @Implementation
   public void end() {
@@ -115,9 +112,3 @@ public class ShadowRenderNodeAnimator {
     }
   };
 }
-
-#else
-public class ShadowRenderNodeAnimator {
-  // Stub class, does not exist pre-21
-}
-#end

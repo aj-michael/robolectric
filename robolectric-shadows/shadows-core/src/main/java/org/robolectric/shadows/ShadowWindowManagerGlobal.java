@@ -1,6 +1,5 @@
 package org.robolectric.shadows;
 
-#if ($api >= 17)
 import android.os.Looper;
 import android.view.WindowManagerGlobal;
 import org.robolectric.annotation.Implementation;
@@ -9,7 +8,7 @@ import org.robolectric.annotation.Implements;
 /**
  * Shadow for {@link android.view.WindowManagerGlobal}.
  */
-@Implements(value = WindowManagerGlobal.class, isInAndroidSdk = false)
+@Implements(value = WindowManagerGlobal.class, isInAndroidSdk = false, from = 17)
 public class ShadowWindowManagerGlobal {
 
   @Implementation
@@ -28,8 +27,3 @@ public class ShadowWindowManagerGlobal {
   }
 
 }
-#else
-public class ShadowWindowManagerGlobal {
-  // Dummy class, this was added in API17
-}
-#end

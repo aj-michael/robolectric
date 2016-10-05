@@ -19,7 +19,7 @@ import java.util.TimeZone;
 /**
  * Shadow for {@link android.text.format.Time}.
  */
-@Implements(Time.class)
+@Implements(value = Time.class, to = 20) // todo: setToNow should be omnipresent though
 public class ShadowTime {
   @RealObject
   private Time time;
@@ -29,7 +29,7 @@ public class ShadowTime {
     time.set(ShadowSystemClock.currentTimeMillis());
   }
 
-#if ($api < 21)
+//#if ($api < 21)
   private static final long SECOND_IN_MILLIS = 1000;
   private static final long MINUTE_IN_MILLIS = SECOND_IN_MILLIS * 60;
   private static final long HOUR_IN_MILLIS = MINUTE_IN_MILLIS * 60;
@@ -329,5 +329,4 @@ public class ShadowTime {
     c.set(Calendar.MILLISECOND, 0);
     return c;
   }
-#end
 }

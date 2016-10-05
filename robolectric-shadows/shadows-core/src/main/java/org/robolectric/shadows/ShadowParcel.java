@@ -26,7 +26,7 @@ import java.util.Map;
 @SuppressWarnings("unchecked")
 public class ShadowParcel {
   @RealObject private Parcel realObject;
-  private static final Map<$ptrClassBoxed, ByteBuffer> NATIVE_PTR_TO_PARCEL = new LinkedHashMap<>();
+  private static final Map<Long, ByteBuffer> NATIVE_PTR_TO_PARCEL = new LinkedHashMap<>();
 
   @Implementation
   public void writeByteArray(byte[] b, int offset, int len) {
@@ -34,108 +34,108 @@ public class ShadowParcel {
       realObject.writeInt(-1);
       return;
     }
-    nativeWriteByteArray(($ptrClassBoxed) ReflectionHelpers.getField(realObject, "mNativePtr"), b, offset, len);
+    nativeWriteByteArray((Long) ReflectionHelpers.getField(realObject, "mNativePtr"), b, offset, len);
   }
 
   @Implementation @HiddenApi
-  public static int nativeDataSize($ptrClass nativePtr) {
+  public static int nativeDataSize(long/*ptr*/ nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).dataSize();
   }
 
   @Implementation @HiddenApi
-  public static int nativeDataAvail($ptrClass nativePtr) {
+  public static int nativeDataAvail(long/*ptr*/ nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).dataAvailable();
   }
 
   @Implementation @HiddenApi
-  public static int nativeDataPosition($ptrClass nativePtr) {
+  public static int nativeDataPosition(long/*ptr*/ nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).dataPosition();
   }
 
   @Implementation @HiddenApi
-  public static int nativeDataCapacity($ptrClass nativePtr) {
+  public static int nativeDataCapacity(long/*ptr*/ nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).dataCapacity();
   }
 
   @Implementation @HiddenApi
-  public static void nativeSetDataSize($ptrClass nativePtr, int size) {
+  public static void nativeSetDataSize(long/*ptr*/ nativePtr, int size) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).setDataSize(size);
   }
 
   @Implementation @HiddenApi
-  public static void nativeSetDataPosition($ptrClass nativePtr, int pos) {
+  public static void nativeSetDataPosition(long/*ptr*/ nativePtr, int pos) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).setDataPosition(pos);
   }
 
   @Implementation @HiddenApi
-  public static void nativeSetDataCapacity($ptrClass nativePtr, int size) {
+  public static void nativeSetDataCapacity(long/*ptr*/ nativePtr, int size) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).setDataCapacity(size);
   }
 
   @Implementation @HiddenApi
-  public static void nativeWriteByteArray($ptrClass nativePtr, byte[] b, int offset, int len) {
+  public static void nativeWriteByteArray(long/*ptr*/ nativePtr, byte[] b, int offset, int len) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).writeByteArray(b, offset, len);
   }
 
   @Implementation @HiddenApi
-  public static void nativeWriteInt($ptrClass nativePtr, int val) {
+  public static void nativeWriteInt(long/*ptr*/ nativePtr, int val) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).writeInt(val);
   }
 
   @Implementation @HiddenApi
-  public static void nativeWriteLong($ptrClass nativePtr, long val) {
+  public static void nativeWriteLong(long/*ptr*/ nativePtr, long val) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).writeLong(val);
   }
 
   @Implementation @HiddenApi
-  public static void nativeWriteFloat($ptrClass nativePtr, float val) {
+  public static void nativeWriteFloat(long/*ptr*/ nativePtr, float val) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).writeFloat(val);
   }
 
   @Implementation @HiddenApi
-  public static void nativeWriteDouble($ptrClass nativePtr, double val) {
+  public static void nativeWriteDouble(long/*ptr*/ nativePtr, double val) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).writeDouble(val);
   }
 
   @Implementation @HiddenApi
-  public static void nativeWriteString($ptrClass nativePtr, String val) {
+  public static void nativeWriteString(long/*ptr*/ nativePtr, String val) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).writeString(val);
   }
 
   @Implementation @HiddenApi
-  public static byte[] nativeCreateByteArray($ptrClass nativePtr) {
+  public static byte[] nativeCreateByteArray(long/*ptr*/ nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).readByteArray();
   }
 
   @Implementation @HiddenApi
-  public static int nativeReadInt($ptrClass nativePtr) {
+  public static int nativeReadInt(long/*ptr*/ nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).readInt();
   }
 
   @Implementation @HiddenApi
-  public static long nativeReadLong($ptrClass nativePtr) {
+  public static long nativeReadLong(long/*ptr*/ nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).readLong();
   }
 
   @Implementation @HiddenApi
-  public static float nativeReadFloat($ptrClass nativePtr) {
+  public static float nativeReadFloat(long/*ptr*/ nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).readFloat();
   }
 
   @Implementation @HiddenApi
-  public static double nativeReadDouble($ptrClass nativePtr) {
+  public static double nativeReadDouble(long/*ptr*/ nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).readDouble();
   }
 
   @Implementation @HiddenApi
-  public static String nativeReadString($ptrClass nativePtr) {
+  public static String nativeReadString(long/*ptr*/ nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).readString();
   }
 
   @Implementation @HiddenApi
-  public static $ptrClass nativeCreate() {
+  public static long/*ptr*/ nativeCreate() {
     // Pick a native ptr that hasn't been used.
-    $ptrClass nativePtrUsed = 0;
+    long/*ptr*/ nativePtrUsed = 0;
     while (NATIVE_PTR_TO_PARCEL.containsKey(nativePtrUsed)) {
       nativePtrUsed++;
     }
@@ -144,27 +144,27 @@ public class ShadowParcel {
   }
 
   @Implementation @HiddenApi
-  public static void nativeFreeBuffer($ptrClass nativePtr) {
+  public static void nativeFreeBuffer(long/*ptr*/ nativePtr) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).clear();
   }
 
   @Implementation @HiddenApi
-  public static void nativeDestroy($ptrClass nativePtr) {
+  public static void nativeDestroy(long/*ptr*/ nativePtr) {
     NATIVE_PTR_TO_PARCEL.remove(nativePtr);
   }
 
   @Implementation @HiddenApi
-  public static byte[] nativeMarshall($ptrClass nativePtr) {
+  public static byte[] nativeMarshall(long/*ptr*/ nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).toByteArray();
   }
 
   @Implementation @HiddenApi
-  public static void nativeUnmarshall($ptrClass nativePtr, byte[] data, int offset, int length) {
+  public static void nativeUnmarshall(long/*ptr*/ nativePtr, byte[] data, int offset, int length) {
     NATIVE_PTR_TO_PARCEL.put(nativePtr, ByteBuffer.fromByteArray(data, offset, length));
   }
 
   @Implementation @HiddenApi
-  public static void nativeAppendFrom($ptrClass thisNativePtr, $ptrClass otherNativePtr, int offset, int length) {
+  public static void nativeAppendFrom(long/*ptr*/ thisNativePtr, long/*ptr*/ otherNativePtr, int offset, int length) {
     ByteBuffer thisByteBuffer = NATIVE_PTR_TO_PARCEL.get(thisNativePtr);
     ByteBuffer otherByteBuffer = NATIVE_PTR_TO_PARCEL.get(otherNativePtr);
     thisByteBuffer.appendFrom(otherByteBuffer, offset, length);
