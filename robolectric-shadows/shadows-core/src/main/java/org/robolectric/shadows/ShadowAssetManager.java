@@ -279,13 +279,13 @@ public final class ShadowAssetManager {
     return ints;
   }
 
-  @HiddenApi @Implementation(to = LOLLIPOP - 1)
-  synchronized public int createTheme$$PreLollipop() {
-    return (int) nextInternalThemeId++;
-  }
+//  @HiddenApi @Implementation(to = LOLLIPOP - 1)
+//  synchronized public int createTheme$$PreLollipop() {
+//    return (int) nextInternalThemeId++;
+//  }
 
-  @HiddenApi @Implementation(from = LOLLIPOP)
-  synchronized public long createTheme$$Lollipop() {
+  @HiddenApi @Implementation // (from = LOLLIPOP) todo
+  synchronized public Number createTheme() {
     return nextInternalThemeId++;
   }
 
@@ -476,8 +476,12 @@ public final class ShadowAssetManager {
   }
 
   TypedArray attrsToTypedArray(Resources resources, AttributeSet set, int[] attrs, int defStyleAttr, Resources.Theme theme, int defStyleRes) {
-      long themePtr = ReflectionHelpers.getField(theme, "mTheme");
+      long themePtr = getThemePtr(theme).longValue();
       return attrsToTypedArray(resources, set, attrs, defStyleAttr, themePtr, defStyleRes);
+  }
+
+  private Number getThemePtr(Resources.Theme theme) {
+    return ReflectionHelpers.getField(theme, "mTheme");
   }
 
   TypedArray attrsToTypedArray(Resources resources, AttributeSet set, int[] attrs, int defStyleAttr, long themePtr, int defStyleRes) {

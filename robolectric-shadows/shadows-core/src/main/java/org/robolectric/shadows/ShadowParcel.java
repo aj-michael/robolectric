@@ -34,106 +34,221 @@ public class ShadowParcel {
       realObject.writeInt(-1);
       return;
     }
-    nativeWriteByteArray((Long) ReflectionHelpers.getField(realObject, "mNativePtr"), b, offset, len);
+    Number nativePtr = ReflectionHelpers.getField(realObject, "mNativePtr");
+    nativeWriteByteArray(nativePtr.longValue(), b, offset, len);
   }
 
-  @Implementation @HiddenApi
-  public static int nativeDataSize(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static int nativeDataSize(int nativePtr) {
+    return nativeDataSize((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static int nativeDataSize(long nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).dataSize();
   }
 
-  @Implementation @HiddenApi
-  public static int nativeDataAvail(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static int nativeDataAvail(int nativePtr) {
+    return nativeDataAvail((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static int nativeDataAvail(long nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).dataAvailable();
   }
 
-  @Implementation @HiddenApi
-  public static int nativeDataPosition(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static int nativeDataPosition(int nativePtr) {
+    return nativeDataPosition((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static int nativeDataPosition(long nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).dataPosition();
   }
 
-  @Implementation @HiddenApi
-  public static int nativeDataCapacity(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static int nativeDataCapacity(int nativePtr) {
+    return nativeDataCapacity((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static int nativeDataCapacity(long nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).dataCapacity();
   }
 
-  @Implementation @HiddenApi
-  public static void nativeSetDataSize(long/*ptr*/ nativePtr, int size) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeSetDataSize(int nativePtr, int size) {
+    nativeSetDataSize((long) nativePtr, size);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeSetDataSize(long nativePtr, int size) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).setDataSize(size);
   }
 
-  @Implementation @HiddenApi
-  public static void nativeSetDataPosition(long/*ptr*/ nativePtr, int pos) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeSetDataPosition(int nativePtr, int pos) {
+    nativeSetDataPosition((long) nativePtr, pos);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeSetDataPosition(long nativePtr, int pos) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).setDataPosition(pos);
   }
 
-  @Implementation @HiddenApi
-  public static void nativeSetDataCapacity(long/*ptr*/ nativePtr, int size) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeSetDataCapacity(int nativePtr, int size) {
+    nativeSetDataCapacity((long) nativePtr, size);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeSetDataCapacity(long nativePtr, int size) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).setDataCapacity(size);
   }
 
-  @Implementation @HiddenApi
-  public static void nativeWriteByteArray(long/*ptr*/ nativePtr, byte[] b, int offset, int len) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeWriteByteArray(int nativePtr, byte[] b, int offset, int len) {
+    nativeWriteByteArray((long) nativePtr, b, offset, len);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeWriteByteArray(long nativePtr, byte[] b, int offset, int len) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).writeByteArray(b, offset, len);
   }
 
-  @Implementation @HiddenApi
-  public static void nativeWriteInt(long/*ptr*/ nativePtr, int val) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeWriteInt(int nativePtr, int val) {
+    nativeWriteInt((long) nativePtr, val);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeWriteInt(long nativePtr, int val) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).writeInt(val);
   }
 
-  @Implementation @HiddenApi
-  public static void nativeWriteLong(long/*ptr*/ nativePtr, long val) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeWriteLong(int nativePtr, long val) {
+    nativeWriteLong((long) nativePtr, val);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeWriteLong(long nativePtr, long val) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).writeLong(val);
   }
 
-  @Implementation @HiddenApi
-  public static void nativeWriteFloat(long/*ptr*/ nativePtr, float val) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeWriteFloat(int nativePtr, float val) {
+    nativeWriteFloat((long) nativePtr, val);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeWriteFloat(long nativePtr, float val) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).writeFloat(val);
   }
 
-  @Implementation @HiddenApi
-  public static void nativeWriteDouble(long/*ptr*/ nativePtr, double val) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeWriteDouble(int nativePtr, double val) {
+    nativeWriteDouble((long) nativePtr, val);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeWriteDouble(long nativePtr, double val) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).writeDouble(val);
   }
 
-  @Implementation @HiddenApi
-  public static void nativeWriteString(long/*ptr*/ nativePtr, String val) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeWriteString(int nativePtr, String val) {
+    nativeWriteString((long) nativePtr, val);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeWriteString(long nativePtr, String val) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).writeString(val);
   }
 
-  @Implementation @HiddenApi
-  public static byte[] nativeCreateByteArray(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static byte[] nativeCreateByteArray(int nativePtr) {
+    return nativeCreateByteArray((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static byte[] nativeCreateByteArray(long nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).readByteArray();
   }
 
-  @Implementation @HiddenApi
-  public static int nativeReadInt(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static int nativeReadInt(int nativePtr) {
+    return nativeReadInt((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static int nativeReadInt(long nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).readInt();
   }
 
-  @Implementation @HiddenApi
-  public static long nativeReadLong(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static long nativeReadLong(int nativePtr) {
+    return nativeReadLong((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static long nativeReadLong(long nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).readLong();
   }
 
-  @Implementation @HiddenApi
-  public static float nativeReadFloat(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static float nativeReadFloat(int nativePtr) {
+    return nativeReadFloat((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static float nativeReadFloat(long nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).readFloat();
   }
 
-  @Implementation @HiddenApi
-  public static double nativeReadDouble(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static double nativeReadDouble(int nativePtr) {
+    return nativeReadDouble((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static double nativeReadDouble(long nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).readDouble();
   }
 
-  @Implementation @HiddenApi
-  public static String nativeReadString(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static String nativeReadString(int nativePtr) {
+    return nativeReadString((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static String nativeReadString(long nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).readString();
   }
 
   @Implementation @HiddenApi
-  public static long/*ptr*/ nativeCreate() {
+  public static Number nativeCreate() {
     // Pick a native ptr that hasn't been used.
     long/*ptr*/ nativePtrUsed = 0;
     while (NATIVE_PTR_TO_PARCEL.containsKey(nativePtrUsed)) {
@@ -143,28 +258,58 @@ public class ShadowParcel {
     return nativePtrUsed;
   }
 
-  @Implementation @HiddenApi
-  public static void nativeFreeBuffer(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeFreeBuffer(int nativePtr) {
+    nativeFreeBuffer((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeFreeBuffer(long nativePtr) {
     NATIVE_PTR_TO_PARCEL.get(nativePtr).clear();
   }
 
-  @Implementation @HiddenApi
-  public static void nativeDestroy(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeDestroy(int nativePtr) {
+    nativeDestroy((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeDestroy(long nativePtr) {
     NATIVE_PTR_TO_PARCEL.remove(nativePtr);
   }
 
-  @Implementation @HiddenApi
-  public static byte[] nativeMarshall(long/*ptr*/ nativePtr) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static byte[] nativeMarshall(int nativePtr) {
+    return nativeMarshall((long) nativePtr);
+  }
+
+  @Implementation(from = 21)
+  public static byte[] nativeMarshall(long nativePtr) {
     return NATIVE_PTR_TO_PARCEL.get(nativePtr).toByteArray();
   }
 
-  @Implementation @HiddenApi
-  public static void nativeUnmarshall(long/*ptr*/ nativePtr, byte[] data, int offset, int length) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeUnmarshall(int nativePtr, byte[] data, int offset, int length) {
+    nativeUnmarshall((long) nativePtr, data, offset, length);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeUnmarshall(long nativePtr, byte[] data, int offset, int length) {
     NATIVE_PTR_TO_PARCEL.put(nativePtr, ByteBuffer.fromByteArray(data, offset, length));
   }
 
-  @Implementation @HiddenApi
-  public static void nativeAppendFrom(long/*ptr*/ thisNativePtr, long/*ptr*/ otherNativePtr, int offset, int length) {
+  @HiddenApi
+  @Implementation(to = 20)
+  public static void nativeAppendFrom(int thisNativePtr, int otherNativePtr, int offset, int length) {
+    nativeAppendFrom((long) thisNativePtr, otherNativePtr, offset, length);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeAppendFrom(long thisNativePtr, long otherNativePtr, int offset, int length) {
     ByteBuffer thisByteBuffer = NATIVE_PTR_TO_PARCEL.get(thisNativePtr);
     ByteBuffer otherByteBuffer = NATIVE_PTR_TO_PARCEL.get(otherNativePtr);
     thisByteBuffer.appendFrom(otherByteBuffer, offset, length);

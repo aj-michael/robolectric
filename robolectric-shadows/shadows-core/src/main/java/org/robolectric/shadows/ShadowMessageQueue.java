@@ -24,7 +24,7 @@ import static org.robolectric.util.ReflectionHelpers.ClassParameter.from;
  * <p>This class puts {@link android.os.Message}s into the scheduler queue instead of sending
  * them to be handled on a separate thread. {@link android.os.Message}s that are scheduled to
  * be dispatched can be triggered by calling {@link ShadowLooper#idleMainLooper}.</p>
- * 
+ *
  * @see ShadowLooper
  */
 @Implements(MessageQueue.class)
@@ -40,29 +40,50 @@ public class ShadowMessageQueue {
   // rather than automatic.
   @HiddenApi
   @Implementation
-  public static $ptrClass nativeInit() {
+  public static Number nativeInit() {
     return 1;
   }
-  
+
   @HiddenApi
-  @Implementation
-  public static void nativeDestroy($ptrClass ptr) {}
-  
+  @Implementation(to = 20)
+  public static void nativeDestroy(int ptr) {
+    nativeDestroy((long) ptr);
+  }
+
+  @Implementation(from = 21)
+  public static void nativeDestroy(long ptr) {
+  }
+
   @HiddenApi
-  @Implementation
-  public static void nativePollOnce($ptrClass ptr, int timeoutMillis) {
+  @Implementation(to = 20)
+  public static void nativePollOnce(int ptr, int timeoutMillis) {
+    nativePollOnce((long) ptr, timeoutMillis);
+  }
+
+  @Implementation(from = 21)
+  public static void nativePollOnce(long ptr, int timeoutMillis) {
     throw new AssertionError("Should not be called");
   }
 
   @HiddenApi
-  @Implementation
-  public static void nativeWake($ptrClass ptr) {
-    throw new AssertionError("Should not be called");    
+  @Implementation(to = 20)
+  public static void nativeWake(int ptr) {
+    nativeWake((long) ptr);
   }
-  
+
+  @Implementation(from = 21)
+  public static void nativeWake(long ptr) {
+    throw new AssertionError("Should not be called");
+  }
+
   @HiddenApi
-  @Implementation
-  public static boolean nativeIsIdling($ptrClass ptr) {
+  @Implementation(to = 20)
+  public static boolean nativeIsIdling(int ptr) {
+    return nativeIsIdling((long) ptr);
+  }
+
+  @Implementation(from = 21)
+  public static boolean nativeIsIdling(long ptr) {
     return false;
   }
 
@@ -85,7 +106,7 @@ public class ShadowMessageQueue {
   public void reset() {
     setHead(null);
   }
-  
+
   @Implementation
   public boolean enqueueMessage(final Message msg, long when) {
     final boolean retval = directlyOn(realQueue, MessageQueue.class, "enqueueMessage", from(Message.class, msg), from(long.class, when));
@@ -135,7 +156,7 @@ public class ShadowMessageQueue {
 
   private static void dispatchMessage(Message msg) {
     final Handler target = msg.getTarget();
-    
+
     shadowOf(msg).setNext(null);
     // If target is null it means the message has been removed
     // from the queue prior to being dispatched by the scheduler.

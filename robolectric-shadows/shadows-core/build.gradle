@@ -51,17 +51,20 @@ configurations {
 task copyNatives(type: Copy) {
     outputs.dir file("${buildDir}/resources/main")
 
-    configurations.jni.files.each { File file ->
-        def nativeJarMatch = file.name =~ /lib.*-natives-(.*)\.jar/
-        if (nativeJarMatch) {
-            inputs.file file
+    project.afterEvaluate {
+        configurations.jni.files.each { File file ->
+            def nativeJarMatch = file.name =~ /lib.*-natives-(.*)\.jar/
+            if (nativeJarMatch) {
+                inputs.file file
 
-            def platformName = nativeJarMatch[0][1]
-            from(zipTree(file)) { rename { f -> "$platformName/$f" } }
+                def platformName = nativeJarMatch[0][1]
+                from(zipTree(file)) { rename { f -> "$platformName/$f" } }
+            }
+
         }
-
-        into project.file("$buildDir/resources/main")
     }
+
+    into project.file("$buildDir/resources/main")
 }
 
 jar {
@@ -80,9 +83,9 @@ dependencies {
     provided("org.robolectric:android-all:${AndroidSdk.versions[AndroidSdk.latestVersion]}") { force = true }
     compile "com.ibm.icu:icu4j:53.1"
 
-//    jni "com.github.axet.litedb:libsqlite:0.282-3:natives-mac-x86_64"
-//    jni "com.github.axet.litedb:libsqlite:0.282-3:natives-linux-x86"
-//    jni "com.github.axet.litedb:libsqlite:0.282-3:natives-linux-x86_64"
-//    jni "com.github.axet.litedb:libsqlite:0.282-3:natives-windows-x86"
-//    jni "com.github.axet.litedb:libsqlite:0.282-3:natives-windows-x86_64"
+    jni "com.github.axet.litedb:libsqlite:0.282-3:natives-mac-x86_64"
+    jni "com.github.axet.litedb:libsqlite:0.282-3:natives-linux-x86"
+    jni "com.github.axet.litedb:libsqlite:0.282-3:natives-linux-x86_64"
+    jni "com.github.axet.litedb:libsqlite:0.282-3:natives-windows-x86"
+    jni "com.github.axet.litedb:libsqlite:0.282-3:natives-windows-x86_64"
 }

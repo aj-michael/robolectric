@@ -11,15 +11,20 @@ public class Logger {
   private static final String LOGGING_ENABLED = "robolectric.logging.enabled";
 
   public static void strict(String message, Throwable e) {
-    if (Boolean.getBoolean(LOGGING_ENABLED)) {
+    if (loggingEnabled()) {
       System.out.print("WARNING: ");
       System.out.println(message);
       e.printStackTrace();
     }
   }
 
+  private static boolean loggingEnabled() {
+//    return Boolean.getBoolean(LOGGING_ENABLED);
+    return true;
+  }
+
   public static void strict(String message, Object... args) {
-    if (Boolean.getBoolean(LOGGING_ENABLED)) {
+    if (loggingEnabled()) {
       System.out.print("WARNING: ");
       System.out.println(String.format(message, args));
     }
@@ -32,7 +37,7 @@ public class Logger {
    * @param args    Message arguments.
    */
   public static void info(String message, Object... args) {
-    if (Boolean.getBoolean(LOGGING_ENABLED)) {
+    if (loggingEnabled()) {
       System.out.print("INFO: ");
       System.out.println(String.format(message, args));
     }
@@ -56,7 +61,7 @@ public class Logger {
    * @param args    Message arguments.
    */
   public static void debug(String message, Object... args) {
-    if (Boolean.getBoolean(LOGGING_ENABLED)) {
+    if (loggingEnabled()) {
       System.out.print("DEBUG: ");
       System.out.println(String.format(message, args));
     }
